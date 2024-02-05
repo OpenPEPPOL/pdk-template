@@ -1,0 +1,3 @@
+metadata:
+  title: Shared PINT rules
+  description: These are rules that are shared by all implementation of PINT compliant invoices. If any of these rules fails when validating an invoice message then that invoice is not a valid PINT invoice.

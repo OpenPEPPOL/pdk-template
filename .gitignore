@@ -1,0 +1,14 @@
+# Project
+/.pdk
+/src/_library
+/target
+generated
+Gemfile
+Gemfile.lock
+
+# Intellij
+.idea
+*.iml
+
+# MacOS
+.DS_Store

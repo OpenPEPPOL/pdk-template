@@ -1,0 +1,145 @@
+= Introduction
+
+This document is intended as a reference for those working with the Peppol Development Kit (Referred to as *PDK* from now on) for the first time.
+Additionally, it is also intended to serve as a cookbook with self-contained references and solutions for common use cases.
+
+== What is PDK?
+PDK is a tool, developed by Peppol Development Team,
+to generate HTML-based static websites for documentation of the Business Interoperability Specifications (BIS). The tool  provides means to define all business process lifecycle and its necessary properties to automate and standardize Peppol BIS documentation.
+
+
+PDK allows developers to initiate, create, build, validate and migrate BIS documentation.
+It also allows you to serve the documentation as a static webpage.
+
+A developer can define a Peppol BIS process,
+transactions,
+semantic model,
+syntax binding,
+semantic rules,
+codelists for certain data types,
+XSD schemas and schematrons for the transactions of the process.
+
+Using PDK, the developer then validates and builds static project artifacts
+using the above-mentioned assets. The validations are performed against the
+XSD schemas and schematron files defined in the project hierarchy.
+The validation results are populated in the tool output.
+
+PDK also supports running build and validation operations separately.
+After completing build operation, you can generate static website documentation artifact
+by running a separate `pdk hugo` command, which will generate the ultimate
+static website artifact ready to be deployed to a server.
+
+== Installation
+
+=== Prerequisites
+
+To use pdk you have to install and configure the following SDKs/libraries.
+
+- https://www.jruby.org/getting-started[jruby]
+
+- https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[java(8 or 11)]
+
+=== Installation Steps
+
+. Clone/Download the pdk-utils repository
++
+```bash
+git clone https://github.com/OpenPEPPOL/pdk-utils.git
+```
++
+. Install dependencies
++
+```bash
+./init.sh
+```
++
+or
++
+```bash
+bundler install
+```
++
+. `source` the setup file from your interactive shell to setup the environment
++
+.linux
+[source,bash,indent=0,role="primary"]
+----
+$ source ./setup.sh
+----
++
+.windows
+[source,bash,indent=0,role="secondary"]
+----
+$ setup.bat
+----
++
+[source,bash,indent=0,role="secondary"]
+.osx
+[source,bash]
+----
+$ source ./setup_mac.sh
+----
++
+. Check installation
++
+[source,bash]
+----
+$ which pdk
+----
+
+
+
+== PDK Tasks
+
+PDK Tasks are a set of creation, build life cycles and publish.
+The following table contains PDK tasks and their corresponding descriptions.
+
+[cols="4,6",frame=rows,grid=rows]
+|===
+
+|`pdk build`
+|Build all the processes
+
+|`pdk build-skip-tests`
+|Build model, skip validations and prepare hugo site
+
+|`pdk clean`
+|Clean the artifacts
+
+|`pdk config:{vscode\|devcontainer}`
+|Configur vscode validation tool for the project or devcontainer for the project
+
+|`pdk eur`
+|Build Peppol End User Reporting BIS
+
+|`pdk hugo`
+|Generate static website
+
+|`pdk migrate`
+|Migrate an existing project from the old syntax to the new pdk module
+
+|`pdk run init`
+|Create and initiate an empty project
+
+|`pdk serve`
+|Serve the static site
+
+|`pdk tsr`
+|Build Peppol Transaction Statistics Reporting BIS
+
+
+|`pdk validate`
+|Validate sample transactions against XSD schemas and schematrons
+
+|===
+
+`pdk` is the default task that run `pdk build`  as first and `pdk hugo` as second.
+
+[CAUTION]
+Keep in mind, that when you execute the `clean` goal of PDK, the target directory is removed,
+meaning you lose all compiled classes from previous builds.
+That means, that PDK will have to rebuild all of your project again from scratch.
+So if you have performed some manual editing to the generated files
+under the target dir, you will lose them.
+
+

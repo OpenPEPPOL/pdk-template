@@ -1,0 +1,10 @@
+override:
+  - id: ERBG-1
+    name: Report Header
+    definition: End User Report header metadata.
+
+  - id: ERBT-003
+    name: Report period(1, 2, eg.)
+    definition: The year and month the data in this report refers to.
+    value:
+      datatype: MonthYear

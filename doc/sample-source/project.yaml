@@ -1,0 +1,7 @@
+languages:
+  - code: en
+    title: PDK Quickstart
+    description: This space contains PDK Quickstart Sample Specification.
+  - code: es
+    title: Inicio rápido de PDK
+    description: Este espacio contiene la especificación de ejemplo de inicio rápido de PDK.

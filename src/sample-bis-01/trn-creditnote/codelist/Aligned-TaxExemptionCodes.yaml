@@ -1,0 +1,14 @@
+title:
+  en: Tax exemption reason code list
+identifier: TaxEx
+agency: CEF
+language: en
+version:
+  identifier: 2022
+  status: published
+codes:
+- id: Sample-code
+  name:
+    en: Name of the exemption reason.
+  description:
+    en: Description of the exemption reason

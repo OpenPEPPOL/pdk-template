@@ -1,0 +1,1345 @@
+metadata:
+  namespaces:
+    ubl: urn:oasis:names:specification:ubl:schema:xsd:Invoice-2
+    cac: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+    cbc: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
+content:
+  element: ubl:CreditNote
+  cardinality: 1..1
+  children:
+    - element: cbc:CustomizationID
+      reference: ibt-024
+
+    - element: cbc:ProfileID
+      reference: ibt-023
+
+    - element: cbc:ID
+      reference: ibt-001
+
+    - element: cbc:IssueDate
+      reference: ibt-002
+
+    - element: cbc:IssueTime
+      reference: ibt-168
+
+    - element: cbc:InvoiceTypeCode
+      reference: ibt-003
+
+    - element: cbc:Note
+      reference: ibt-022
+
+    - element: cbc:TaxPointDate
+      reference: ibt-007
+
+    - element: cbc:DocumentCurrencyCode
+      reference: ibt-005
+
+    - element: cbc:TaxCurrencyCode
+      reference: ibt-006
+
+    - element: cbc:AccountingCost
+      reference: ibt-019
+
+    - element: cbc:BuyerReference
+      reference: ibt-010
+
+    - element: cac:InvoicePeriod
+      reference: ibg-14
+      children:
+        - element: cbc:StartDate
+          reference: ibt-073
+
+        - element: cbc:EndDate
+          reference: ibt-074
+
+        - element: cbc:DescriptionCode
+          reference: ibt-008
+
+    - element: cac:OrderReference
+      name: Order and sales order reference
+      reference:
+        cardinality: ibt-013
+      children:
+        - element: cbc:ID
+          reference: ibt-013
+          cardinality: 1..1
+
+        - element: cbc:SalesOrderID
+          reference: ibt-014
+
+    - element: cac:BillingReference
+      reference: ibg-03
+      children:
+        - element: cac:InvoiceDocumentReference
+          name: Invoice document reference
+          cardinality: 1..1
+          children:
+            - element: cbc:ID
+              reference: ibt-025
+
+            - element: cbc:IssueDate
+              reference: ibt-026
+
+    - element: cac:DespatchDocumentReference
+      name: Despatch advice reference
+      reference:
+        cardinality: ibt-016
+      children:
+        - element: cbc:ID
+          reference: ibt-016
+          cardinality: 1..1
+
+    - element: cac:ReceiptDocumentReference
+      name: Receipt advice reference
+      reference:
+        cardinality: ibt-015
+      children:
+        - element: cbc:ID
+          reference: ibt-015
+          cardinality: 1..1
+
+    - element: cac:OriginatorDocumentReference
+      name: Tender or Lot reference
+      reference:
+        cardinality: ibt-017
+      children:
+        - element: cbc:ID
+          reference: ibt-017
+          cardinality: 1..1
+
+    - element: cac:ContractDocumentReference
+      name: Contract reference
+      reference:
+        cardinality: ibt-012
+      children:
+        - element: cbc:ID
+          reference: ibt-012
+          cardinality: 1..1
+
+    - element: cac:AdditionalDocumentReference
+      selector: cbc:DocumentTypeCode = 130
+      name: Additional document reference class
+      definition: A syntax required class in which the invoice object identifier is nested.
+      reference: 
+        cardinality: ibt-018
+      children:
+        - element: cbc:ID
+          reference: ibt-018
+          cardinality: 1..1
+          attribute:
+            - element: schemeID
+              reference: ibt-018-1
+        - element: cbc:DocumentTypeCode
+          name: Qualifier for syntax binding
+          definition: The code value of 130 as Document type code qualifies the cbc:ID (ibt-018) as being an invoiced object identifier.
+          cardinality: 1..1
+
+    - element: cac:AdditionalDocumentReference
+      selector: cbc:DocumentTypeCode = 50
+      name: Additional document reference class
+      definition: A syntax required class in which the project reference is nested.
+      reference: 
+        cardinality: ibt-011
+      children:
+        - element: cbc:ID
+          reference: ibt-011
+          cardinality: 1..1
+        - element: cbc:DocumentTypeCode
+          name: Qualifier for syntax binding
+          definition: The code value of 50 as Document type code qualifies the cbc:ID (ibt-011) as being project reference.
+          cardinality: 1..1
+
+    - element: cac:AdditionalDocumentReference
+      selector: cbc:DocumentTypeCode != 130 or 50
+      reference: ibg-24
+      children:
+        - element: cbc:ID
+          reference: ibt-122
+          cardinality: 1..1
+
+        - element: cbc:DocumentDescription
+          reference: ibt-123
+
+        - element: cac:Attachment
+          name: Attachment
+          cardinality: 0..1
+          children:
+            - element: cbc:EmbeddedDocumentBinaryObject
+              reference: ibt-125
+              attribute:
+                - element: mimeCode
+                  reference: ibt-125-1
+
+                - element: filename
+                  reference: ibt-125-2
+
+            - element: cac:ExternalReference
+              name: External reference
+              reference:
+                cardinality: ibt-124
+              children:
+                - element: cbc:URI
+                  reference: ibt-124
+                  cardinality: 1..1
+
+    - element: cac:AccountingSupplierParty
+      reference: ibg-04
+      children:
+        - element: cac:Party
+          name: Party
+          cardinality: 1..1
+          children:
+            - element: cbc:EndpointID
+              reference: ibt-034
+              attribute:
+                - element: schemeID
+                  name: Seller electronic address identification scheme identifier
+                  definition: The identification scheme identifier of the Seller electronic address
+                  cardinality: 1..1
+                  reference: ibt-034-1
+
+            - element: cac:PartyIdentification
+              reference:
+                cardinality: ibt-029
+              children:
+                - element: cbc:ID
+                  reference: ibt-029
+                  cardinality: 1..1
+                  attribute:
+                    - element: schemeID
+                      cardinality: 0..1
+                      reference: ibt-029-1
+
+            - element: cac:PartyIdentification
+              name: Bank assigned creditor identifier
+              selector: cac:ID/@schemeID = "SEPA"
+              reference:
+                cardinality: ibt-090
+              children:
+                - element: cbc:ID
+                  reference: ibt-090
+                  cardinality: 1..1
+                  attribute:
+                    - element: schemeID
+                      name: Seller or bank assigned creditor identifier identification scheme identifier
+                      definition: For bank assigned creditor identifier (ibt-090), value MUST be "SEPA"
+                      cardinality: 1..1
+
+            - element: cac:PartyName
+              name: Party name
+              reference:
+                cardinality: ibt-028
+              children:
+                - element: cbc:Name
+                  reference: ibt-028
+                  cardinality: 1..1
+
+            - element: cac:PostalAddress
+              reference: ibg-05
+              children:
+                - element: cbc:StreetName
+                  reference: ibt-035
+
+                - element: cbc:AdditionalStreetName
+                  reference: ibt-036
+
+                - element: cbc:CityName
+                  reference: ibt-037
+
+                - element: cbc:PostalZone
+                  reference: ibt-038
+
+                - element: cbc:CountrySubentity
+                  reference: ibt-039
+
+                - element: cac:AddressLine
+                  name: Address line
+                  reference:
+                    cardinality: ibt-162
+                  children:
+                    - element: cbc:Line
+                      reference: ibt-162
+                      cardinality: 1..1
+
+                - element: cac:Country
+                  name: Country
+                  cardinality: 1..1
+                  children:
+                    - element: cbc:IdentificationCode
+                      reference: ibt-040
+
+            - element: cac:PartyTaxScheme
+              selector: cac:TaxScheme = "VAT"
+              name: PARTY TAX
+              reference:
+                cardinality: ibt-031
+              children:
+                - element: cbc:CompanyID
+                  reference: ibt-031
+                  cardinality: 1..1
+
+                - element: cac:TaxScheme
+                  cardinality: 1..1
+                  name: TAX SCHEME
+                  definition: Syntax required class
+                  children:
+                    - element: cbc:ID
+                      reference: ibt-031-1
+
+            - element: cac:PartyTaxScheme
+              selector: cac:TaxScheme != "VAT"
+              name: PARTY TAX
+              reference:
+                cardinality: ibt-032
+              children:
+                - element: cbc:CompanyID
+                  reference: ibt-032
+                  cardinality: 1..1
+
+                - element: cac:TaxScheme
+                  name: TAX SCHEME
+                  definition: Syntax required class
+                  cardinality: 1..1
+                  children:
+                    - element: cbc:ID
+                      name: Tax scheme code
+                      definition: Syntax required element. Use TAX code.
+                      cardinality: 1..1
+
+            - element: cac:PartyLegalEntity
+              name: Party legal entity
+              cardinality: 1..1
+              children:
+                - element: cbc:RegistrationName
+                  reference: ibt-027
+
+                - element: cbc:CompanyID
+                  reference: ibt-030
+                  attribute:
+                    - element: schemeID
+                      reference: ibt-030-1
+
+                - element: cbc:CompanyLegalForm
+                  reference: ibt-033
+
+            - element: cac:Contact
+              reference: ibg-06
+              children:
+                - element: cbc:Name
+                  reference: ibt-041
+
+                - element: cbc:Telephone
+                  reference: ibt-042
+
+                - element: cbc:ElectronicMail
+                  reference: ibt-043
+
+    - element: cac:AccountingCustomerParty
+      reference: ibg-07
+      children:
+        - element: cac:Party
+          name: Party
+          cardinality: 1..1
+          children:
+            - element: cbc:EndpointID
+              reference: ibt-049
+              attribute:
+                - element: schemeID
+                  cardinality: 1..1
+                  reference: ibt-049-1
+
+            - element: cac:PartyIdentification
+              reference:
+                cardinality: ibt-046
+              children:
+                - element: cbc:ID
+                  reference: ibt-046
+                  cardinality: 1..1
+                  attribute:
+                    - element: schemeID
+                      reference: ibt-046-1
+
+            - element: cac:PartyName
+              name: Party name
+              reference:
+                cardinality: ibt-045
+              children:
+                - element: cbc:Name
+                  reference: ibt-045
+                  cardinality: 1..1
+
+            - element: cac:PostalAddress
+              reference: ibg-08
+              children:
+                - element: cbc:StreetName
+                  reference: ibt-050
+
+                - element: cbc:AdditionalStreetName
+                  reference: ibt-051
+
+                - element: cbc:CityName
+                  reference: ibt-052
+
+                - element: cbc:PostalZone
+                  reference: ibt-053
+
+                - element: cbc:CountrySubentity
+                  reference: ibt-054
+
+                - element: cac:AddressLine
+                  name: Address line
+                  reference:
+                    cardinality: ibt-163
+                  children:
+                    - element: cbc:Line
+                      reference: ibt-163
+                      cardinality: 1..1
+
+                - element: cac:Country
+                  name: Country
+                  cardinality: 1..1
+                  children:
+                    - element: cbc:IdentificationCode
+                      reference: ibt-055
+
+            - element: cac:PartyTaxScheme
+              name: PARTY TAX
+              reference:
+                cardinality: ibt-048
+              children:
+                - element: cbc:CompanyID
+                  reference: ibt-048
+                  cardinality: 1..1
+
+                - element: cac:TaxScheme
+                  name: TAX SCHEME
+                  cardinality: 1..1
+                  children:
+                    - element: cbc:ID
+                      reference: ibt-048-1
+
+            - element: cac:PartyLegalEntity
+              name: Party legal entity
+              cardinality: 1..1
+              children:
+                - element: cbc:RegistrationName
+                  reference: ibt-044
+
+                - element: cbc:CompanyID
+                  reference: ibt-047
+                  attribute:
+                    - element: schemeID
+                      reference: ibt-047-1
+
+            - element: cac:Contact
+              reference: ibg-09
+              children:
+                - element: cbc:Name
+                  reference: ibt-056
+
+                - element: cbc:Telephone
+                  reference: ibt-057
+
+                - element: cbc:ElectronicMail
+                  reference: ibt-058
+
+    - element: cac:PayeeParty
+      name: Payee
+      definition: A group of business terms providing information about the Payee, i.e. the role that receives the payment.
+      reference: ibg-10
+      children:
+        - element: cac:PartyIdentification
+          name: PARTY IDENTIFICATION
+          reference:
+            cardinality: ibt-060
+          children:
+            - element: cbc:ID
+              reference: ibt-060
+              cardinality: 1..1
+              attribute:
+                - element: schemeID
+                  reference: ibt-060-1
+
+        - element: cac:PartyName
+          name: Party name
+          cardinality: 1..1
+          children:
+            - element: cbc:Name
+              reference: ibt-059
+
+        - element: cac:PartyLegalEntity
+          name: Party legal entity
+          reference:
+            cardinality: ibt-061
+          children:
+            - element: cbc:CompanyID
+              reference: ibt-061
+              cardinality: 1..1
+              attribute:
+                - element: schemeID
+                  reference: ibt-061-1
+
+    - element: cac:TaxRepresentativeParty
+      reference: ibg-11
+      children:
+        - element: cac:PartyName
+          name: Party name
+          cardinality: 1..1
+          children:
+            - element: cbc:Name
+              reference: ibt-062
+
+        - element: cac:PostalAddress
+          reference: ibg-12
+          children:
+            - element: cbc:StreetName
+              reference: ibt-064
+
+            - element: cbc:AdditionalStreetName
+              reference: ibt-065
+
+            - element: cbc:CityName
+              reference: ibt-066
+
+            - element: cbc:PostalZone
+              reference: ibt-067
+
+            - element: cbc:CountrySubentity
+              reference: ibt-068
+
+            - element: cac:AddressLine
+              name: Address line
+              reference:
+                cardinality: ibt-164
+              children:
+                - element: cbc:Line
+                  reference: ibt-164
+                  cardinality: 1..1
+
+            - element: cac:Country
+              name: Country
+              cardinality: 1..1
+              children:
+                - element: cbc:IdentificationCode
+                  reference: ibt-069
+
+        - element: cac:PartyTaxScheme
+          name: PARTY TAX
+          cardinality: 1..1
+          children:
+            - element: cbc:CompanyID
+              reference: ibt-063
+
+            - element: cac:TaxScheme
+              name: TAX SCHEME
+              cardinality: 1..1
+              children:
+                - element: cbc:ID
+                  reference: ibt-063-1
+
+    - element: cac:Delivery
+      name: DELIVERY INFORMATION
+      definition: |
+        A group of business terms providing information about where and when the goods and services
+        invoiced are delivered.
+      reference: ibg-13
+      children:
+        - element: cbc:ActualDeliveryDate
+          reference: ibt-072
+
+        - element: cac:DeliveryLocation
+          cardinality: 0..1
+          children:
+            - element: cbc:ID
+              reference: ibt-071
+              attribute:
+                - element: schemeID
+                  reference: ibt-071-1
+
+            - element: cac:Address
+              reference: ibg-15
+              children:
+                - element: cbc:StreetName
+                  reference: ibt-075
+
+                - element: cbc:AdditionalStreetName
+                  reference: ibt-076
+
+                - element: cbc:CityName
+                  reference: ibt-077
+
+                - element: cbc:PostalZone
+                  reference: ibt-078
+
+                - element: cbc:CountrySubentity
+                  reference: ibt-079
+
+                - element: cac:AddressLine
+                  name: Address line
+                  reference:
+                    cardinality: ibt-165
+                  children:
+                    - element: cbc:Line
+                      reference: ibt-165
+                      cardinality: 1..1
+
+                - element: cac:Country
+                  name: Country
+                  cardinality: 1..1
+                  children:
+                    - element: cbc:IdentificationCode
+                      reference: ibt-080
+
+        - element: cac:DeliveryParty
+          name: DELIVER PARTY
+          reference:
+            cardinality: ibt-070
+          children:
+            - element: cac:PartyName
+              name: PARTY NAME
+              cardinality: 1..1
+              children:
+                - element: cbc:Name
+                  reference: ibt-070
+                  cardinality: 1..1
+
+    - element: cac:PaymentMeans
+      reference: ibg-16
+      children:
+        - element: cbc:ID
+          reference: ibt-178
+
+        - element: cbc:PaymentMeansCode
+          reference: ibt-081
+          attribute:
+            - element: name
+              reference: ibt-082
+
+        - element: cbc:PaymentDueDate
+          reference: ibt-009
+
+        - element: cbc:PaymentID
+          reference: ibt-083
+          attribute:
+            - element: schemeID
+              reference: ibt-083-1
+
+        - element: cac:CardAccount
+          reference: ibg-18
+          children:
+            - element: cbc:PrimaryAccountNumberID
+              reference: ibt-087
+
+            - element: cbc:NetworkID
+              definition: Syntax required element not mapped to a business term. Use value NA
+              cardinality: 1..1
+
+            - element: cbc:HolderName
+              reference: ibt-088
+
+        - element: cac:PayeeFinancialAccount
+          reference: ibg-17
+          children:
+            - element: cbc:ID
+              reference: ibt-084
+              attribute:
+                - element: schemeID
+                  reference: ibt-084-1
+
+            - element: cbc:Name
+              reference: ibt-085
+
+            - element: cac:FinancialInstitutionBranch
+              name: FINANCIAL INSTITUTION BRANCH
+              reference:
+                cardinality: ibt-086
+              children:
+                - element: cbc:ID
+                  reference: ibt-086
+                  cardinality: 1..1
+
+                - element: cac:Address
+                  reference: ibg-34
+                  children:
+                    - element: cbc:StreetName
+                      reference: ibt-169
+
+                    - element: cbc:AdditionalStreetName
+                      reference: ibt-170
+
+                    - element: cbc:CityName
+                      reference: ibt-171
+
+                    - element: cbc:PostalZone
+                      reference: ibt-172
+
+                    - element: cbc:CountrySubentity
+                      reference: ibt-173
+
+                    - element: cac:AddressLine
+                      reference:
+                        cardinality: ibt-174
+                      children:
+                        - element: cbc:Line
+                          reference: ibt-174
+                          cardinality: 1..1
+
+                    - element: cac:Country
+                      reference:
+                        cardinality: ibt-175
+                      children:
+                        - element: cbc:IdentificationCode
+                          reference: ibt-175
+                          cardinality: 1..1
+
+        - element: cac:PaymentMandate
+          reference: ibg-19
+          children:
+            - element: cbc:ID
+              reference: ibt-089
+                  
+            - element: cac:PayerFinancialAccount
+              name: PAYER FINANCIAL ACCOUNT
+              reference:
+                cardinality: ibt-091
+              children:
+                - element: cbc:ID
+                  reference: ibt-091
+                  cardinality: 1..1
+
+    - element: cac:PaymentTerms
+      reference: ibg-33
+      children:
+        - element: cbc:PaymentMeansID
+          reference: ibt-187
+
+        - element: cbc:Note
+          reference: ibt-020
+
+        - element: cbc:Amount
+          reference: ibt-176
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+        - element: cbc:InstallmentDueDate
+          reference: ibt-177
+
+    - element: cac:PrepaidPayment
+      reference: ibg-35
+      children:
+        - element: cbc:ID
+          reference: ibt-179
+
+        - element: cbc:PaidAmount
+          reference: ibt-180
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+        - element: cbc:ReceivedDate
+          reference: ibt-181
+
+        - element: cbc:InstructionID
+          reference: ibt-182
+
+    - element: cac:AllowanceCharge
+      selector: cbc:ChargeIndicator = false
+      reference: ibg-20
+      children:
+        - element: cbc:ChargeIndicator
+          name: Syntax binding qualifier
+          definition: Use “false” when informing about Allowances.
+          cardinality: 1..1
+
+        - element: cbc:AllowanceChargeReasonCode
+          reference: ibt-098
+
+        - element: cbc:AllowanceChargeReason
+          reference: ibt-097
+
+        - element: cbc:MultiplierFactorNumeric
+          reference: ibt-094
+
+        - element: cbc:Amount
+          reference: ibt-092
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+
+        - element: cbc:BaseAmount
+          reference: ibt-093
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+        - element: cac:TaxCategory
+          name: TAX CATEGORY
+          reference:
+            cardinality: ibt-095
+          children:
+            - element: cbc:ID
+              reference: ibt-095
+              cardinality: 1..1
+
+            - element: cbc:Percent
+              reference: ibt-096
+            
+            - element: cbc:TaxExemptionReasonCode
+              reference: ibt-196
+
+            - element: cbc:TaxExemptionReason
+              reference: ibt-197
+
+            - element: cac:TaxScheme
+              name: TAX SCHEME
+              reference:
+                cardinality: ibt-095-1
+              children:
+                - element: cbc:ID
+                  reference: ibt-095-1
+
+    - element: cac:AllowanceCharge
+      selector: cbc:ChargeIndicator = true
+      reference: ibg-21
+      children:
+        - element: cbc:ChargeIndicator
+          name: Syntax binding qualifier
+          definition: Use “true” when informing about Charges.
+          cardinality: 1..1
+
+        - element: cbc:AllowanceChargeReasonCode
+          reference: ibt-105
+
+        - element: cbc:AllowanceChargeReason
+          reference: ibt-104
+
+        - element: cbc:MultiplierFactorNumeric
+          reference: ibt-101
+
+        - element: cbc:Amount
+          reference: ibt-099
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+ 
+        - element: cbc:BaseAmount
+          reference: ibt-100
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+        - element: cac:TaxCategory
+          name: TAX CATEGORY
+          reference:
+            cardinality: ibt-102
+          children:
+            - element: cbc:ID
+              reference: ibt-102
+              cardinality: 1..1
+
+            - element: cbc:Percent
+              reference: ibt-103
+
+            - element: cbc:TaxExemptionReasonCode
+              reference: ibt-198
+
+            - element: cbc:TaxExemptionReason
+              reference: ibt-199
+
+            - element: cac:TaxScheme
+              name: TAX SCHEME
+              reference:
+                cardinality: ibt-102-1
+              children:
+                - element: cbc:ID
+                  reference: ibt-102-1
+
+    - element: cac:TaxTotal
+      selector: cac:TaxTotal/TaxAmount/@currency = cbc:DocumentCurrencyCode
+      name: Tax total
+      description: The total TAX amount for the Invoice
+      cardinality: 1..1
+      children:
+        - element: cbc:TaxAmount
+          reference: ibt-110
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+        - element: cbc:TaxIncludedIndicator
+          reference: ibt-200
+
+        - element: cac:TaxSubtotal
+          reference: ibg-23
+          children:
+            - element: cbc:TaxableAmount
+              reference: ibt-116
+              attribute:
+                - element: currencyID
+                  name: Currency code
+                  definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+                  cardinality: 1..1
+
+            - element: cbc:TaxAmount
+              reference: ibt-117
+              attribute:
+                - element: currencyID
+                  name: Currency code
+                  definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+                  cardinality: 1..1
+
+            - element: cac:TaxCategory
+              cardinality: 1..1
+              children:
+                - element: cbc:ID
+                  reference: ibt-118
+
+                - element: cbc:Percent
+                  reference: ibt-119
+
+                - element: cbc:TaxExemptionReasonCode
+                  reference: ibt-121
+
+                - element: cbc:TaxExemptionReason
+                  reference: ibt-120
+
+                - element: cac:TaxScheme
+                  name: TAX SCHEME
+                  cardinality: 1..1
+                  children:
+                    - element: cbc:ID
+                      reference: ibt-118-1
+
+    - element: cac:TaxTotal
+      selector: cac:TaxTotal/TaxAmount/@currency = cbc:TaxCurrencyCode
+      reference: ibg-37
+      children:
+        - element: cbc:TaxAmount
+          reference: ibt-111
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice Tax currency code (ibt-006)
+              cardinality: 1..1
+
+        - element: cac:TaxSubtotal
+          name: One of the subtotals the sum of which equals the total tax amount for a particular taxation scheme.
+          reference: ibg-38
+          children:
+            - element: cbc:TaxAmount
+              reference: ibt-190
+              attribute:
+              - element: currencyID
+                name: Currency code
+                definition: Syntax required attribute, value must equal invoice Tax currency code (ibt-006)
+                cardinality: 1..1
+
+            - element: cac:TaxCategory
+              name: The tax category applicable to this subtotal
+              cardinality: 0..1
+              children:
+                - element: cbc:ID
+                  reference: ibt-192
+
+                - element: cbc:Percent
+                  reference: ibt-193
+ 
+    - element: cac:LegalMonetaryTotal
+      reference: ibg-22
+      children:
+        - element: cbc:LineExtensionAmount
+          reference: ibt-106
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+        - element: cbc:TaxExclusiveAmount
+          reference: ibt-109
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+        - element: cbc:TaxInclusiveAmount
+          reference: ibt-112
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+        - element: cbc:AllowanceTotalAmount
+          reference: ibt-107
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+        - element: cbc:ChargeTotalAmount
+          reference: ibt-108
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+        - element: cbc:PrepaidAmount
+          reference: ibt-113
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+        - element: cbc:PayableRoundingAmount
+          reference: ibt-114
+          cardinality: 0..1
+          definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+ 
+        - element: cbc:PayableAmount
+          reference: ibt-115
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+    - element: cac:CreditNoteLine
+      reference: ibg-25
+      children:
+        - element: cbc:ID
+          reference: ibt-126
+
+        - element: cbc:Note
+          reference: ibt-127
+
+        - element: cbc:CreditedQuantity
+          reference: ibt-129
+          attribute:
+            - element: unitCode
+              reference: ibt-130
+
+        - element: cbc:LineExtensionAmount
+          reference: ibt-131
+          attribute:
+            - element: currencyID
+              name: Currency code
+              definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+              cardinality: 1..1
+
+        - element: cbc:AccountingCost
+          reference: ibt-133
+
+        - element: cac:InvoicePeriod
+          reference: ibg-26
+          children:
+            - element: cbc:StartDate
+              reference: ibt-134
+
+            - element: cbc:EndDate
+              reference: ibt-135
+
+        - element: cac:OrderLineReference
+          name: ORDER LINE REFERENCE
+          reference:
+            cardinality: ibt-132
+          children:
+            - element: cbc:LineID
+              reference: ibt-132
+              cardinality: 1..1
+
+            - element: cac:OrderReference
+              name: Referenced purchase order.
+              reference:
+                cardinality: ibt-183
+              children:
+                - element: cbc:ID
+                  reference: ibt-183
+                  cardinality: 1..1
+
+        - element: cac:DespatchLineReference
+          name: DESPATCH REFERENCE
+          reference:
+            cardinality: ibt-184
+          children:
+            - element: cbc:LineID
+              name: Despatch advice line
+              definition: Syntax required item. Value shall be NA.
+              cardinality: 1..1
+
+            - element: cac:DocumentReference
+              name: Despatch advice reference
+              cardinality: 0..1
+              children:
+                - element: cbc:ID
+                  reference: ibt-184
+                  cardinality: 1..1
+
+        - element: cac:DocumentReference
+          selector: cbc:DocumentTypeCode != 130
+          reference: ibg-36
+          name: LINE DOCUMENT REFERENCE
+          children:
+            - element: cbc:ID
+              reference: ibt-188
+
+            - element: cbc:DocumentTypeCode
+              reference: ibt-189
+
+        - element: cac:DocumentReference
+          selector: cbc:DocumentTypeCode = 130
+          name: LINE OBJECT IDENTIFIER
+          reference:
+            cardinality: ibt-128
+          children:
+            - element: cbc:ID
+              reference: ibt-128
+              cardinality: 1..1
+              attribute:
+                - element: schemeID
+                  reference: ibt-128-1
+
+            - element: cbc:DocumentTypeCode
+              name: Qualifier for syntax binding
+              cardinality: 1..1
+
+        - element: cac:AllowanceCharge
+          selector: cbc:ChargeIndicator = false
+          reference: ibg-27
+          children:
+            - element: cbc:ChargeIndicator
+              name: Syntax binding qualifier
+              definition: Use “false” when informing about Allowances
+              cardinality: 1..1
+
+            - element: cbc:AllowanceChargeReasonCode
+              reference: ibt-140
+
+            - element: cbc:AllowanceChargeReason
+              reference: ibt-139
+
+            - element: cbc:MultiplierFactorNumeric
+              reference: ibt-138
+
+            - element: cbc:Amount
+              reference: ibt-136
+              attribute:
+                - element: currencyID
+                  name: Currency code
+                  definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+                  cardinality: 1..1
+
+            - element: cbc:BaseAmount
+              reference: ibt-137
+              attribute:
+                - element: currencyID
+                  name: Currency code
+                  definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+                  cardinality: 1..1
+
+        - element: cac:AllowanceCharge
+          selector: cbc:ChargeIndicator = true
+          reference: ibg-28
+          children:
+            - element: cbc:ChargeIndicator
+              name: Syntax binding qualifier
+              definition: Use “true” when informing about Charges
+              cardinality: 1..1
+
+            - element: cbc:AllowanceChargeReasonCode
+              reference: ibt-145
+
+            - element: cbc:AllowanceChargeReason
+              reference: ibt-144
+
+            - element: cbc:MultiplierFactorNumeric
+              reference: ibt-143
+
+            - element: cbc:Amount
+              reference: ibt-141
+              attribute:
+                - element: currencyID
+                  name: Currency code
+                  definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+                  cardinality: 1..1
+
+            - element: cbc:BaseAmount
+              reference: ibt-142
+              attribute:
+                - element: currencyID
+                  name: Currency code
+                  definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+                  cardinality: 1..1
+
+        - element: cac:Item
+          reference: ibg-31
+          children:
+            - element: cbc:Description
+              reference: ibt-154
+
+            - element: cbc:Name
+              reference: ibt-153
+
+            - element: cac:BuyersItemIdentification
+              name: BUYERS ITEM IDENTIFICATION
+              reference:
+                cardinality: ibt-156
+              children:
+                - element: cbc:ID
+                  reference: ibt-156
+                  cardinality: 1..1
+
+            - element: cac:SellersItemIdentification
+              name: SELLERS ITEM IDENTIFICATION
+              reference:
+                cardinality: ibt-155
+              children:
+                - element: cbc:ID
+                  reference: ibt-155
+                  cardinality: 1..1
+
+            - element: cac:StandardItemIdentification
+              name: STANDARD ITEM IDENTIFICATION
+              reference:
+                cardinality: ibt-157
+              children:
+                - element: cbc:ID
+                  reference: ibt-157
+                  cardinality: 1..1
+                  attribute:
+                    - element: schemeID
+                      reference: ibt-157-1
+                      cardinality: 1..1
+
+            - element: cac:OriginCountry
+              name: ORIGIN COUNTRY
+              reference:
+                cardinality: ibt-159
+              children:
+                - element: cbc:IdentificationCode
+                  reference: ibt-159
+                  cardinality: 1..1
+
+            - element: cac:CommodityClassification
+              reference:
+                cardinality: ibt-158
+              children:
+                - element: cbc:ItemClassificationCode
+                  reference: ibt-158
+                  cardinality: 1..1
+                  attribute:
+                    - element: listID
+                      reference: ibt-158-1
+
+                    - element: listVersionID
+                      reference: ibt-158-2
+
+            - element: cac:ClassifiedTaxCategory
+              reference: ibg-30
+              children:
+                - element: cbc:ID
+                  reference: ibt-151
+
+                - element: cbc:Percent
+                  reference: ibt-152
+
+                - element: cbc:PerUnitAmount
+                  reference: ibt-166
+                  attribute:
+                    - element: currencyID
+                      name: Currency code
+                      definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+                      cardinality: 1..1
+
+                - element: cbc:TaxExemptionReasonCode
+                  reference: ibt-185
+
+                - element: cbc:TaxExemptionReason
+                  reference: ibt-186
+
+                - element: cac:TaxScheme
+                  name: TAX SCHEME
+                  reference:
+                    cardinality: ibt-167
+                  children:
+                    - element: cbc:ID
+                      reference: ibt-167
+                 
+            - element: cac:AdditionalItemProperty
+              reference: ibg-32
+              children:
+                - element: cbc:Name
+                  reference: ibt-160
+
+                - element: cbc:Value
+                  reference: ibt-161
+
+        - element: cac:Price
+          reference: ibg-29
+          children:
+            - element: cbc:PriceAmount
+              reference: ibt-146
+              attribute:
+                - element: currencyID
+                  name: Currency code
+                  definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+                  cardinality: 1..1
+
+            - element: cbc:BaseQuantity
+              reference: ibt-149
+              attribute:
+                - element: unitCode
+                  reference: ibt-150
+
+            - element: cac:AllowanceCharge
+              name: ALLOWANCE
+              reference:
+                cardinality: ibt-147
+              children:
+                - element: cbc:ChargeIndicator
+                  name: Syntax binding qualifier
+                  definition: Mandatory element. Value must be “false”
+                  cardinality: 1..1
+
+                - element: cbc:Amount
+                  reference: ibt-147
+                  cardinality: 1..1
+                  attribute:
+                    - element: currencyID
+                      name: Currency code
+                      definition: Syntax required attribute, value must equal invoice document currency (ibt-005)
+                      cardinality: 1..1
+
+                - element: cbc:BaseAmount
+                  reference: ibt-148
+                  attribute:
+                    - element: currencyID
+                      name: Currency code
+                      bindingnote: Syntax required attribute, value must equal invoice document currency (ibt-005)
+                      cardinality: 1..1

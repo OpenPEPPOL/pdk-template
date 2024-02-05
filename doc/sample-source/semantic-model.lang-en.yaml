@@ -1,0 +1,8 @@
+- id: ERBG-1
+  name: Report Header
+  definition: End User Report header data.
+- id: ERBT-003
+  name: Report period
+  definition: The year and month the data in this report refers to.
+- id: ERBT-004
+  name: Reporter identification

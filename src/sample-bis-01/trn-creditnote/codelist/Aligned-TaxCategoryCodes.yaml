@@ -1,0 +1,31 @@
+title:
+  en: Tax category codes
+description:
+  en: Codes specifying tax categories in jurisdictions.
+identifier: TaxCat
+agency: UN/CEFACT
+language: en
+version:
+  identifier: D.16B
+  status: published
+codes:
+- id: AA
+  name:
+    en: Lower rate
+  description:
+    en: Tax rate is lower than standard rate.
+- id: O
+  name:
+    en: Services outside scope of tax
+  description:
+    en: Code specifying that taxes are not applicable to the services.
+- id: S
+  name:
+    en: Standard rate
+  description:
+    en: Code specifying the standard rate.
+- id: Z
+  name:
+    en: Zero rated goods
+  description:
+    en: Code specifying that the goods are at a zero rate.

@@ -1,0 +1,825 @@
+= Project Folder
+
+.Project Structure
+[source,text]
+----
+./project-root
+  ├── .vscode
+  ├── .devcontainer
+  ├── project.yaml
+  ├── library.yaml
+  └── src
+      ├── _common
+      └── [process]
+          ├── process.yaml
+          ├── .imports.yaml
+          ├── docs
+          │   └── [document]
+          │       ├── main.adoc
+          │       └── ... other asciidocs - resources
+          ├── trn-[transaction]
+          │   ├── transaction.yaml
+          │   ├── codelist/*
+          │   ├── docs/*
+          │   ├── example/*
+          │   ├── resources/*
+          │   ├── schematron/*
+          │   │   └── unit-test/*
+          │   ├── syntax-binding/*
+          │   └── semantic-model/*
+          ├── trn-[other transaction]
+          |   ├── transaction.yaml
+          │   ├── codelist/*
+          │   ├── docs/*
+          │   ├── example/*
+          │   ├── resources/*
+          │   ├── schematron/*
+          │   ├── syntax-binding/*
+          │   └── semantic-model/*
+          └── trn-[...]
+----
+
+The project structure and related files are shown in the above diagram.
+
+`project.yml` file is the main descriptor of a project.
+It contains general information about a project like the title and description with the support of multiple languages.
+
+.project.yaml
+[source,yaml,indent=0]
+----
+include::{project_file}[]
+----
+//TODO Ask Jerry what is path
+The `library.yaml` file contains the `URL` of the latest release of the project, and its properties.
+When the `pdk` command is executed, the source of the latest release is downloaded under the `.pdk` folder
+and `source.zip` file is extracted into the `_library` folder. The pdk also imports all the files
+(docs, resource and transactions) into the process folder. The `url` property is mandatory.
+If additional properties are required they need to be provided under the `properties` attribute.
+As an example, in the below listing, the `url` contains a dynamic property named `varsion`, which
+is provided later under the `properties` attribute.
+
+.library.yaml
+[source,yaml,indent=0]
+----
+include::{library_file}[]
+----
+
+== Process Folder
+
+A process is a set of one or multiple transactions between two Peppol users.
+As an example, an order, a billing or a reporting operation is a Peppol process.
+All the documentation related to that process must be provided under the process folder.
+Multiple processes with unique names can be found as siblings in the source root.
+
+`process.yaml` file contains process metadata, it is also contains hugo configuration.
+The following table shows the process variables and types.
+
+.Process Variables
+[%header,cols="2h,2,3,5"]
+|===
+|`*Variable Name*`
+|*Required*
+|*Type*
+|*Description*
+
+|`*title*`
+|optional
+|string \| string translatable*
+|
+
+|`*description*`
+|optional
+|string \| string translatable*
+|
+
+|`*version*`
+|optional
+|string
+|
+
+|`*status*`
+|optional
+|enum with values `draft`, `active`, `legacy`,`disabled`
+|
+
+|`*hugo*`
+|optional
+|hugo configuration
+|
+
+|`*features.*`
+|optional
+|asciidoctor-pdf feature, default value is false
+|
+
+|===
+
+[cols="3,7",frame=none,grid=none]
+|===
+
+|*string translatable object**
+|string value with string object name which is pattern *`^.+$`*
+
+|===
+
+A sample `process.yaml` is provided below.
+
+.process.yaml
+[source,yaml,indent=0]
+----
+include::{process_file}[]
+----
+
+`imports.yaml` file is used to import from an existing project.
+The PDK tool searches for the imported source under the "_library" folder.
+If it is not found, it looks in the "_common" folder. You can override the discovery path overriding `path`, `as` and `from` variables in the file.
+The `path` variable is mandatory.
+
+.imports.yaml
+[source,yaml,indent=0]
+----
+include::{imports_file}[tags=sampleImport]
+----
+
+=== Documentation
+
+The documentation folder contains the asciidoc files and all the necessary resources (e.g. images, etc...) for the documentation of the current process.
+
+=== Transaction Folder
+
+Transaction folder contains code list, semantic and syntax model of that
+transaction as well the as examples, schemas and schematrons.
+These input resources together define the transaction.
+
+The `transaction.yml` file is the main descriptor of a transaction, it also
+contains Schematron and XSD validation file's information and the hugo configuration.
+The following table shows the transaction variables, types and their descriptions.
+
+.Transaction Variable
+[%header,cols="2h,2,3,5"]
+|===
+|`*Variable Name*`
+|*Required*
+|*Type*
+|*Description*
+
+|`*title*`
+|optional
+|string \| string translatable*
+|Transaction title
+
+|`*description*`
+|optional
+|string \| string translatable*
+|Transaction description
+
+|`*validation:schematron*`
+|optional
+|string
+|Schematron file path
+
+|`*validation:xsd*`
+|optional
+|string
+|XSD files path
+
+
+|`*hugo*`
+|optional
+|hugo configuration
+|Basic hugo configuration list, like `weight`, etc.
+
+|`*feature:basic-rules*`
+|optional
+|boolean
+|Enable or disable basic-rules which generate basic schematron from syntax binding elements. The default value is `true`.
+
+|`*feature:allow-undefined-elements*`
+|optional
+|boolean
+|Enable or disable the end-rule wildcard which generates wildcard rules from the syntax binding elements. Default value is `false`.
+|===
+
+A sample `transaction.yaml` is provided below.
+
+.transaction.yaml
+[source,yaml,indent=0]
+----
+include::{transaction_file}[]
+----
+
+==== Documentation
+
+The documentation folder contains asciidoc files and all the necessary resources (e.g. images, etc...) for the documentation of the current transaction.
+
+==== Resources
+
+The resources folder contains an XML Schema Definition(XSD) of the current transaction. The XSD file path must be provided in the `transaction.yaml` file.
+A sample XSD file is provided below.
+
+[source,xml,indent=0]
+----
+include::{trn_xsd_file}[]
+----
+
+==== Schematron
+
+Schematron folder contains schematron files which are used for syntax validation files of the current transaction, it also contains metadata of schematron and test transaction files.
+Schematron files must be defined in `transaction.yml` to be use in validation.
+
+//TODO ask Jerry syntax-validation.yaml is it available or active in pdk?
+
+.transaction-schematron.sch
+[source,xml,indent=0]
+----
+include::{trn_sch_file}[]
+----
+
+===== Unit Test
+Unit test folder contains sample transaction files, that are used for Schematron validation. The folder name may start with "_test_", "_unit_" as well sa may "_unit-test_"
+
+==== Semantic Model
+
+The semantic model folder contains files which express the semantic model of the current transaction.
+These files include only the essential information that the transaction needs to ensure compliance and to enable interoperability.
+There are four types of files: i) `main.yaml`, ii) `\*.meta.yaml`, iii) `*.yaml` and iv) `lang-*.yaml`.
+These files contain business terms, business term groups, business term attributes and business term values. The tables below show their variables, types, and description.
+
+//Content may also include "include" variable, which is path of different semantic model file, the pdk directly return this file as semantic model.
+
+.Semantic Model Business Term Group Variable
+[%header,cols="2h,2,3,5"]
+|===
+|`*Variable Name*`
+|*Required*
+|*Type*
+|*Description*
+
+|`*id*`
+|*must*
+|string\|number
+|Id of the business term group
+
+|`*name*`
+|*must*
+|string\|string translatable object*
+|Name of the business term group
+
+|`*definition*`
+|optional
+|string\|string translatable object*
+|Definition of the business term group
+
+|`*value*`
+|optional
+|business term value
+|Value of the business term group
+
+|`*note*`
+|optional
+|string\|string translatable object*
+|Note of the business term group
+
+|`*section*`
+|optional
+|string
+|?
+
+|`*cardinality*`
+|*must*
+| cardinality enums*\|string with pattern {"^[A-Z]\+$" \| "^[\\d]+\\.\\.[\\dn]+$"}
+|Cardinality of the business term group
+
+|`*requirement*`
+|optional
+|string\| requirement array
+|?
+
+|`*children*`
+|*must*
+|business term group \| business term
+|Children of the business term
+
+|===
+
+.Semantic Model Business Term Variable
+[%header,cols="2h,2,3,5"]
+|===
+|`*Variable Name*`
+|*Required*
+|*Type*
+|*Description*
+
+|`*id*`
+|*must*
+|string\|number
+|Id of the business term
+
+|`*name*`
+|*must*
+|string\|string translatable object*
+|Name of the business term group
+
+|`*definition*`
+|optional
+|string\|string translatable object*
+|Definition of the business term group
+
+|`*value*`
+|*must*
+|business term value
+|Value of the business term group
+
+|`*note*`
+|optional
+|string\|string translatable object*
+|Note of the business term group
+
+|`*section*`
+|optional
+|string
+|?
+
+|`*cardinality*`
+|*must*
+| cardinality enums*\|string with pattern {"^[A-Z]\+$" \| "^[\\d]+\\.\\.[\\dn]+$"}
+|Cardinality of the business term group
+
+|`*requirement*`
+|optional
+|string\| requirement array
+|?
+
+|`*attribute*`
+|optional
+|business term attribute array
+|Atrribute of the business term
+
+|`*rule*`
+|optional
+|business term rule array
+|Rule of the business term
+|===
+
+.Semantic Model Business Term Rule
+[%header,cols="2h,2,3,5"]
+|===
+|`*Variable Name*`
+|*Required*
+|*Type*
+|*Description*
+
+|`*id*`
+|*must*
+|string
+|Id of the business term rule
+
+|`*requirement*`
+|*must*
+|string\|string translatable object*
+|Name of the business term group
+
+|`*schematron*`
+|*must*
+|string array
+|Related rules ids in the schematron rules
+
+|`*relatesTo*`
+|*must*
+|string array
+|Related business terms ids in the semantic model
+
+|===
+
+.Semantic Model Business Term Attribute Variable
+[%header,cols="2h,2,3,5"]
+|===
+|`*Variable Name*`
+|*Required*
+|*Type*
+|*Description*
+
+|`*id*`
+|*must*
+|string\|number
+|Id of the business term group
+
+|`*name*`
+|*must*
+|string\|string translatable object*
+|Name of the business term group
+
+|`*definition*`
+|optional
+|string\|string translatable object*
+|Definition of the business term group
+
+|`*value*`
+|*must*
+|value object*
+|Definition of value of the business term group
+
+|`*note*`
+|optional
+|string\|string translatable object*
+|Note of the business term group
+
+|`*section*`
+|optional
+|string
+|?
+
+|`*cardinality*`
+|*must*
+| cardinality enums*\|string with pattern {"^[A-Z]\+$" \| "^[\\d]+\\.\\.[\\dn]+$"}
+|Cardinality of the business term group
+
+|`*requirement*`
+|optional
+|string\| requirement array
+|?
+
+|===
+
+.Semantic Model Business Term Value Variable
+[%header,cols="2h,2,3,5"]
+|===
+|`*Variable Name*`
+|*Required*
+|*Type*
+|*Description*
+
+
+|`*datatype*`
+|*must*
+|string
+|Define the data type of business term, like Count, Identifier, Code, MonthYear, etc...
+
+|`*default*`
+|optional
+|string \| number \| boolean
+|Default value
+
+|`*example*`
+|optional
+|string \| number \| boolean
+|Example value
+
+|`*fixed*`
+|optional
+|string \| number \| boolean
+|Fixed value
+
+|`*codelist*`
+|optional
+|string \| number \| boolean \| string array \| number array \| boolean array
+|Codelist of value, which defined in the codelist
+
+|`*max_length*`
+|optional
+|integer
+|Maximum value
+
+|`*min_length*`
+|optional
+|integer
+|Minimum value
+
+|`*pattern*`
+|optional
+|String
+|Pattern of value
+|===
+
+[cols="3,7",frame=none,grid=none]
+|===
+|*cardinality enums**
+|`0..1`, `1..1`, `0..n`, `1..n`
+|===
+
+Some variable types are defined as "translatable strings" to support multiple languages, so developers can define values and languages of these types of variables.
+
+PDK also supports defining the business term's name and definition in separate files according to the language. These files' name format should be like that `lang-{lang-code}.yaml` and the `lang-code` must be defined in the `project.yaml` file. The `lang-{lang-code}.yaml` files include only the name and the definition of the related business term. The functionality works like that if language files exist, PDK load language files, maps the semantic model by its id, and adds the name and the definition attribute's content into the semantic model if they exist in the language file content. Otherwise, PDK uses the content of the attribute of the semantic model in the "main.yaml" or default project language content of the attribute.
+
+
+A sample semantic model `main.yaml` file is provided below.
+The `[.red]#ERBG-1#` element is a business group, and it contains three business terms:
+i) `[.red]#ERBT-3#`,
+ii) `[.red]#ERBT-4#`,
+iii) `[.red]#ERBT-5#`.
+Each business term has `id`, `name`, `value`, and `cardinality` variables.
+All business terms have a `value` variable, that contains its own variables.
+
+.main.yaml
+[source,yaml,indent=0]
+----
+include::{semantic_model_main_file}[tags=sampleContent]
+----
+
+`*.meta.yaml` file includes business term variables which id defined in the `main.yaml` to override.
+The `id` variable used as unique key while overriding, it is mandatory.
+A sample semantic model `meta.main.yaml` file is provided below.
+
+.meta.main.yaml
+[source,yaml,indent=0]
+----
+include::{semantic_model_meta_main_file}[]
+----
+
+.lang-en.yaml
+[source,yaml,indent=0]
+----
+include::{semantic_model_lang}[]
+----
+
+
+
+
+==== Syntax Binding
+
+The syntax binding folder contains files that express technical information about the elements
+in the transaction, these elements refer to business terms in the semantic model.
+
+There are three types of files: i) `main.yaml`, ii) `\*.meta.yaml` and iii) `\*.yaml`. The `main.yaml` file contains metadata and content of the syntax binding. The `\*.yaml` file contains content of the syntax binding.
+The `content` part of a syntax element may contain elements, element groups, element attributes, and element values; the tables below show their variables, types and description.
+
+PDK generates optional variables in syntax binding content from referenced business terms in the semantic model, if they are not defined in syntax binding files.
+
+.Syntax Binding Element
+[%header,cols="2h,2,3,5"]
+|===
+|`*Variable Name*`
+|*Required*
+|*Type*
+|*Description*
+
+|`*element*`
+|*must*
+|string with pattern "^\\w+:\\w+$"
+|Tag name of the element in the transaction
+
+|`*id*`
+|optional
+|string\|number
+|Id of Element
+
+|`*section*`
+|optional
+|string
+|?
+
+|`*cardinality*`
+|optional
+|cardinality enums*\|string with pattern "^[\\d]+\\.\\.[\\dn]+$"
+|Cardinality of the element
+
+|`*selector*`
+|optional
+|string translatable object*
+|XPath of the element
+
+|`*name*`
+|optional
+|string translatable object*
+|Name of the element
+
+|`*definition*`
+|optional
+|string translatable object*
+|Definition of the element
+
+|`*value*`
+|optional
+|value object*
+|Definition of value of the element
+
+|`*reference*`
+|optional
+|string \| number \| boolean \| string array \| number array \| boolean array
+|Referenced business term id
+
+|`*rule*`
+|optional
+|string \| number \| boolean \| string array \| number array \| boolean array
+|?
+
+|`*attribute*`
+|optional
+|attribute array
+|Attribute of the element
+
+|===
+
+
+.Syntax Binding Element Group
+[%header,cols="2h,2,3,5"]
+|===
+|`*Variable Name*`
+|*Required*
+|*Type*
+|*Description*
+
+|`*element*`
+|*must*
+|string with pattern "^\\w+:\\w+$"
+|Tag name of the element in the transaction
+
+|`*id*`
+|optional
+|string\|number
+|Id of Element
+
+|`*children*`
+|*must*
+|Element array
+|Children of the element
+
+|`*section*`
+|optional
+|string
+|?
+
+|`*cardinality*`
+|optional
+|cardinality enums*\|string with pattern "^[\\d]+\\.\\.[\\dn]+$"
+|Cardinality of the element
+
+|`*selector*`
+|optional
+|string translatable object*
+|XPath of the element
+
+|`*name*`
+|optional
+|string translatable object*
+|Name of the element
+
+|`*definition*`
+|optional
+|string translatable object*
+|Definition of the element
+
+|`*reference*`
+|optional
+|string \| number \| boolean \| string array \| number array \| boolean array
+|Referenced business term id
+
+|`*rule*`
+|optional
+|string \| number \| boolean \| string array \| number array \| boolean array
+|?
+
+|`*attribute*`
+|optional
+|attribute array
+|Attribute of the element
+
+|===
+
+.Syntax Binding Element Attribute
+[%header,cols="2h,2,3,5"]
+|===
+|`*Variable Name*`
+|*Required*
+|*Type*
+|*Description*
+
+|`*element*`
+|optional
+|string with pattern "^\\w+:\\w+$"
+|Tag name of the element in the transaction
+
+|`*id*`
+|optional
+|string\|number
+|Id of Element
+
+|`*name*`
+|optional
+|string translatable object*
+|Name of the element
+
+|`*definition*`
+|optional
+|string translatable object*
+|Definition of the element
+
+|`*reference*`
+|optional
+|string \| number \| boolean \| string array \| number array \| boolean array
+|Referenced business term id
+
+|`*value*`
+|optional
+|value object*
+|Definition of value of the element
+
+|`*rule*`
+|optional
+|string \| number \| boolean \| string array \| number array \| boolean array
+|?
+
+|`*usage*`
+|optional
+|string
+|?
+|===
+
+.Syntax Binding Element Value
+[%header,cols="2h,2,3,5"]
+|===
+|`*Variable Name*`
+|*Required*
+|*Type*
+|*Description*
+
+|`*datatype*`
+|optional
+|string
+|Define the data type of the element, like Count, Identifier, Code, MonthYear, etc...
+
+|`*default*`
+|optional
+|string \| number \| boolean
+|Default value
+
+|`*example*`
+|optional
+|string \| number \| boolean
+|Example value
+
+|`*fixed*`
+|optional
+|string \| number \| boolean
+|Fixed value
+
+|`*codelist*`
+|optional
+|string \| number \| boolean \| string array \| number array \| boolean array
+|Codelist of value, which defined in the codelist
+
+|`*max_length*`
+|optional
+|integer
+|Maximum value
+
+|`*min_length*`
+|optional
+|integer
+|Minimum value
+
+|`*pattern*`
+|optional
+|String
+|Pattern of value
+|===
+
+A sample syntax binding `main.yaml` file is provided below.
+The `metadata` may contain multiple namespaces, which are used in the transaction.
+The `content` attribute contains syntax binding element groups, elements and attributes.
+[.red]#eur:EndUserReport# element is the root element group.
+It contains child element groups and elements.
+[.red]#eur:ReporterID# is an element, and it also contains attributes [.red]#schemeID#,
+which also contains a variable named `reference`.
+
+.main.yaml
+[source,yaml,indent=0]
+----
+include::{syntax_binding_main_file}[tags=sampleContent]
+----
+
+*.meta.yaml file includes business term variables which id defined in the main.yaml to override. The id variable used as unique key while overriding, it is mandatory. A sample semantic model meta.main.yaml file is provided below.
+
+.meta.main.yaml
+[source,yaml,indent=0]
+----
+include::{syntax_binding_meta_main_file}[]
+----
+
+
+//TODO Semantic rule will be added.
+
+==== Code list
+
+Code List folder contains codelist files, which respectively are details of about certain code lists. They are also defined in the business terms.
+
+.SampleCodeList.yaml
+[source,yaml,indent=0]
+----
+include::{code_list_file}[]
+----
+
+==== Example files
+
+This folder contains sample transaction xml files which are validated with the schematron.
+
+== VSCode
+
+This folder contains JSON Schemas which allow annotation and validation of the yaml documents which are under the project. https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml[Find out more.]
+
+== Development Container
+
+A Development Container (or Dev Container for short) allows you to use a container as a full-featured development environment.
+It can be used to run an application, to separate tools, libraries, or runtimes needed for working with a codebase, and to aid in continuous integration and testing.
+Dev containers can be run locally or remotely, in a private or public cloud.
+

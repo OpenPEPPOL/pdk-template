@@ -1,0 +1,9 @@
+languages:
+  - code: en
+    title: PDK Template Project
+    description: This space contains PDK Template Project.
+  - code: es
+    title: PDK Template Project
+    description: Este espacio contiene el proyecto de plantilla PDK.
+
+

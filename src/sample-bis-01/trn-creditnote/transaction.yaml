@@ -1,0 +1,16 @@
+title: Credit note Transaction
+description: The Credit note Transaction
+
+features:
+  basic-rules: false
+
+hugo:
+  weight: 2
+validation:
+  schematron:
+    - schematron/PINT-UBL-validation-preprocessed.sch
+
+
+
+
+
