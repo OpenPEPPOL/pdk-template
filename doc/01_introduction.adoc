@@ -31,6 +31,14 @@ static website artifact ready to be deployed to a server.
 
 == Installation
 
+=== Docker
+
+PDK is available for running as a Docker container. They are available from the ECR.
+
+```bash
+docker run --rm --pull=always -i -v "$(pwd)":/src ${ECR_URL}/pdk:latest pdk "$@"
+```
+
 === Prerequisites
 
 To use pdk you have to install and configure the following SDKs/libraries.
