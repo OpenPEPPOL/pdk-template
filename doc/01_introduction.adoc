@@ -39,7 +39,9 @@ PDK is available for running as a Docker container. They are available from the 
 docker run --rm --pull=always -i -v "$(pwd)":/src ${ECR_URL}/pdk:latest pdk "$@"
 ```
 
-=== Prerequisites
+=== Manually
+
+==== Prerequisites
 
 To use pdk you have to install and configure the following SDKs/libraries.
 
@@ -47,7 +49,7 @@ To use pdk you have to install and configure the following SDKs/libraries.
 
 - https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[java(8 or 11)]
 
-=== Installation Steps
+==== Installation Steps
 
 . Clone/Download the pdk-utils repository
 +

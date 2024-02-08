@@ -18,6 +18,8 @@ image::./img/peppol.png[pdfwidth=3.5in,align=center]
 
 v{version}
 
+:leveloffset: +1
+
 include::.asciidoctorconfig[]
 
 include::01_introduction.adoc[]
