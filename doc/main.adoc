@@ -1,10 +1,22 @@
-= Peppol Development Kit
-:sectnums:
-:toclevels: 4
-:toc: left
-:source-highlighter: highlightjs
+include::./settings.adoc[]
 
-:leveloffset: +1
+:description: Peppol Development Kit User Guide.
+:icons: font
+:stem:
+:toc: left
+:hugo-weight: 1
+:toclevels: 2
+:source-highlighter: coderay
+:source-language: xml
+:sectanchors:
+:sectnums:
+:doctype: book
+
+image::./img/peppol.png[pdfwidth=3.5in,align=center]
+
+= {doctitle}
+
+v{version}
 
 include::.asciidoctorconfig[]
 
