@@ -31,13 +31,12 @@ static website artifact ready to be deployed to a server.
 
 == Installation
 
-PDK is available for running as a Docker container. They are available from the OpenPeppol container registry.
+PDK is available for running as a Docker container. It is available from the OpenPeppol container registry.
 
-Please read this documentation before proceeding, you have to install `docker` and `peppol-ecr-login`.
-For the details please read
-https://docs.peppol.eu/peppol-ecr-login carefully.
+Please read https://docs.peppol.eu/peppol-ecr-login[peppol-ecr-login guide] before proceeding.
+We will assume that you have installed docker and pulled the pdk image according to this guide.
 
-After you have logged in and pulled the pdk image, then you can start using it using the below command sequence.
+After you have logged in and pulled the pdk image according to the above guide, we will be using the below command sequence.
 
 [source,bash]
 ----
@@ -93,7 +92,7 @@ The following table contains PDK tasks and their corresponding descriptions.
 |===
 
 [CAUTION]
-Keep in mind, that when you execute the `clean` goal of PDK, the target directory is removed,
+It's important to note that, when you execute the `clean` goal of PDK, the target directory is removed,
 meaning you lose all compiled classes from previous builds.
 That means, that PDK will have to rebuild all of your project again from scratch.
 So if you have performed some manual editing to the generated files

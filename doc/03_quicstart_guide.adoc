@@ -4,6 +4,7 @@ This section provides information on how to create a Peppol BIS documentation pr
 At the end, we will create sample static web page which will be the artifact for our Peppol BIS documentation.
 We will use the following transaction as a sample in this guide.
 
+.Sample XML (https://docs.peppol.eu/edelivery/specs/reporting/eusr/bis/#appendix-1[OpenPeppol EUSR Bis])
 [source,xml,indent=0]
 ----
 include::{quickstart_trn_file}[]
@@ -12,25 +13,33 @@ include::{quickstart_trn_file}[]
 
 == Create Project
 
+
+[IMPORTANT]
+By default, we assumed a unix based system and used `docker-pdk.sh` which can be found https://github.com/OpenPEPPOL/pdk-template/blob/main/docker-pdk.sh[here]. If you are a WINDOWS user, please use the https://github.com/OpenPEPPOL/pdk-template/blob/main/docker-pdk.cmd[Windows CMD alternative].
+
+
 In order to start a new PDK project, create a folder with the name of your desire and then execute the following command from your favorite terminal:
 
-[source,shell,indent=0]
+.Start New Project
+[source,bash]
 ----
-pdk run init
+docker-pdk.sh run init
 ----
 
 image::img/init_project.png[]
 
 You can add vscode and devcontainer configuration later with running following commands.
 
-[source,shell,indent=0]
+.Configure devcontainer
+[source,bash,indent=0]
 ----
-pdk config:devcontainer
+docker-pdk.sh config:devcontainer
 ----
 
-[source,shell,indent=0]
+.Configure VSCode
+[source,bash,indent=0]
 ----
-pdk config:vscode
+docker-pdk.sh config:vscode
 ----
 
 == Configurate _project.yaml_
@@ -130,12 +139,12 @@ image::img/project_structer_vscode.png[Flower,280,180,align="center"]
 
 == Build & Serve
 
-Ensure all the link:#_installation[installation] steps are applied, and open terminal run the `pdk` command, the output should be a below.
+Ensure all the link:#_installation[installation] steps are applied, and open terminal run the `docker-pdk.sh` command, the output should be a below.
 
 image::img/pkd_output.png[align="center"]
 
 
-Now we can serve our static webpage, running the `pdk serve` command.
+Now we can serve our static webpage, running the `docker-pdk.sh serve` command.
 
 image::img/pdk_serve_output.png[aling="center"]
 

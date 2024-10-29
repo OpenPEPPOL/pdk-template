@@ -1,5 +1,18 @@
+
 :lang: en
 
 :doctitle: Peppol Development Kit
 :version: 1.0.1
+:doctype: book
+:docdate: 2024-10-29
+:description: Peppol Development Kit User Guide.
+:icons: font
+:stem:
+:toc: left
+:hugo-weight: 1
+:toclevels: 3
+:source-highlighter: coderay
+:source-language: xml
+:sectanchors:
+:sectnums:
 :doctype: book

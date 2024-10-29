@@ -1,22 +1,10 @@
 include::./settings.adoc[]
+= {doctitle}
+OpenPeppol <https://peppol.org>
+v{version}, {docdate}
 
-:description: Peppol Development Kit User Guide.
-:icons: font
-:stem:
-:toc: left
-:hugo-weight: 1
-:toclevels: 2
-:source-highlighter: coderay
-:source-language: xml
-:sectanchors:
-:sectnums:
-:doctype: book
 
 image::./img/peppol.png[pdfwidth=3.5in,align=center]
-
-= {doctitle}
-
-v{version}
 
 :leveloffset: +1
 
@@ -30,5 +18,6 @@ include::03_quicstart_guide.adoc[]
 
 include::04_appendix1-pdkgit.adoc[]
 
-:leveloffset: -1
+include::revision.adoc[]
 
+:leveloffset: -1
