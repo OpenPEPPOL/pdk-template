@@ -1,7 +1,0 @@
-overrides:
-  - element: eur:ReportPeriodInDay
-    reference: ERBT-003
-  - element: eur:SendingEndUserList
-    reference: ERBT-006
-  - element: eur:ReceivingEndUserList
-    reference: ERBT-007

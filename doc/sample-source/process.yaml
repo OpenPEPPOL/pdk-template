@@ -1,7 +1,0 @@
-title: PDK Quickstart Sample Process
-description: Description of PDK Quickstart Sample Process
-version: "0.0.1"
-
-#asciidoctor-pdf default is false
-features:
-  asciidoctor-pdf: true

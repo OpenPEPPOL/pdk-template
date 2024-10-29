@@ -1,8 +1,0 @@
-# tag::sampleImport[]
-- path: sb-alignments/bis/doc-section
-  as: docs/bis/aligned-section
-
-- path: pint/docs/release-notes
-  from: pint
-  as: docs/release-notes
-# end::sampleImport[]

@@ -1,5 +1,0 @@
-eur:
-   url: https://test-docs.peppol.eu/poacc/eur/eur-{version}.zip
-   properties:
-      version: 0.2.2
-
