@@ -1,7 +1,7 @@
 = Project Folder
 
 .Project Structure
-[source,text]
+[source,text,linenums,highlight=2-10,collapse]
 ----
 ./project-root
   ├── .vscode
@@ -125,7 +125,7 @@ The following table shows the process variables and types.
 A sample `process.yaml` is provided below.
 
 .process.yaml
-[source,yaml,indent=0]
+[source,yaml,asdf,indent=0,linenumbers]
 ----
 include::{process_file}[]
 ----
@@ -134,6 +134,7 @@ include::{process_file}[]
 The PDK tool searches for the imported source under the "_library" folder.
 If it is not found, it looks in the "_common" folder. You can override the discovery path overriding `path`, `as` and `from` variables in the file.
 The `path` variable is mandatory.
+
 
 .imports.yaml
 [source,yaml,indent=0]

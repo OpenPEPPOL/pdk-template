@@ -28,5 +28,7 @@ include::02_project_folder.adoc[]
 
 include::03_quicstart_guide.adoc[]
 
+include::04_appendix1-pdkgit.adoc[]
+
 :leveloffset: -1
 

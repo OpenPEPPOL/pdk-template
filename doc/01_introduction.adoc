@@ -1,14 +1,14 @@
 = Introduction
 
-This document is intended as a reference for those working with the Peppol Development Kit (Referred to as *PDK* from now on) for the first time.
+This document is intended as a reference for those working with the _Peppol Development Kit_ (Referred to as *PDK* from now on) for the first time.
 Additionally, it is also intended to serve as a cookbook with self-contained references and solutions for common use cases.
 
 == What is PDK?
-PDK is a tool, developed by Peppol Development Team,
+*PDK* is a tool, developed by Peppol Development Team,
 to generate HTML-based static websites for documentation of the Business Interoperability Specifications (BIS). The tool  provides means to define all business process lifecycle and its necessary properties to automate and standardize Peppol BIS documentation.
 
 
-PDK allows developers to initiate, create, build, validate and migrate BIS documentation.
+*PDK* allows developers to initiate, create, build, validate and migrate BIS documentation.
 It also allows you to serve the documentation as a static webpage.
 
 A developer can define a Peppol BIS process,
@@ -19,7 +19,7 @@ semantic rules,
 codelists for certain data types,
 XSD schemas and schematrons for the transactions of the process.
 
-Using PDK, the developer then validates and builds static project artifacts
+Using *PDK*, the developer then validates and builds static project artifacts
 using the above-mentioned assets. The validations are performed against the
 XSD schemas and schematron files defined in the project hierarchy.
 The validation results are populated in the tool output.
@@ -31,119 +31,66 @@ static website artifact ready to be deployed to a server.
 
 == Installation
 
-=== Docker
+PDK is available for running as a Docker container. They are available from the OpenPeppol container registry.
 
-PDK is available for running as a Docker container. They are available from the ECR.
+Please read this documentation before proceeding, you have to install `docker` and `peppol-ecr-login`.
+For the details please read
+https://docs.peppol.eu/peppol-ecr-login carefully.
 
-```bash
-docker run --rm --pull=always -i -v "$(pwd)":/src ${ECR_URL}/pdk:latest pdk "$@"
-```
+After you have logged in and pulled the pdk image, then you can start using it using the below command sequence.
 
-=== Manually
-
-==== Prerequisites
-
-To use pdk you have to install and configure the following SDKs/libraries.
-
-- https://www.jruby.org/getting-started[jruby]
-
-- https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[java(8 or 11)]
-
-==== Installation Steps
-
-. Clone/Download the pdk-utils repository
-+
-```bash
-git clone https://github.com/OpenPEPPOL/pdk-utils.git
-```
-+
-. Install dependencies
-+
-```bash
-./init.sh
-```
-+
-or
-+
-```bash
-bundler install
-```
-+
-. `source` the setup file from your interactive shell to setup the environment
-+
-.linux
-[source,bash,indent=0,role="primary"]
-----
-$ source ./setup.sh
-----
-+
-.windows
-[source,bash,indent=0,role="secondary"]
-----
-$ setup.bat
-----
-+
-[source,bash,indent=0,role="secondary"]
-.osx
 [source,bash]
 ----
-$ source ./setup_mac.sh
-----
-+
-. Check installation
-+
-[source,bash]
-----
-$ which pdk
+docker run --rm --pull=always -i \
+   -v "$(pwd)":/src \
+   070318080841.dkr.ecr.eu-west-1.amazonaws.com/pdk \
+   pdk [TARGET_TASKS]
 ----
 
+You can replace `[TARGET_TASKS]` section with the *tasks* that you want to execute.
+Please see section <<PDK Tasks>> for the list of possible tasks.
 
+[NOTE]
+If you have cloned an already existing BiS project from OpenPeppol github, the above
+command might probably exist in scripts named `docker-....bat` or `docker-...sh`.
 
 == PDK Tasks
 
-PDK Tasks are a set of creation, build life cycles and publish.
+PDK Tasks are a set of commands for managing the build life cycle and publishing of
+a PDK Bis project.
 The following table contains PDK tasks and their corresponding descriptions.
 
 [cols="4,6",frame=rows,grid=rows]
 |===
 
-|`pdk build`
+|`build`
 |Build all the processes
 
-|`pdk build-skip-tests`
+|`build-skip-tests`
 |Build model, skip validations and prepare hugo site
 
-|`pdk clean`
+|`clean`
 |Clean the artifacts
 
-|`pdk config:{vscode\|devcontainer}`
-|Configur vscode validation tool for the project or devcontainer for the project
+|`config:{vscode\|devcontainer}`
+|Configure vscode validation tool for the project or devcontainer for the project
 
-|`pdk eur`
-|Build Peppol End User Reporting BIS
-
-|`pdk hugo`
+|`hugo`
 |Generate static website
 
-|`pdk migrate`
+|`migrate`
 |Migrate an existing project from the old syntax to the new pdk module
 
-|`pdk run init`
+|`run init`
 |Create and initiate an empty project
 
-|`pdk serve`
+|`serve`
 |Serve the static site
 
-|`pdk tsr`
-|Build Peppol Transaction Statistics Reporting BIS
-
-
-|`pdk validate`
+|`validate`
 |Validate sample transactions against XSD schemas and schematrons
 
 |===
-
-`pdk` is the default task that run `pdk build`  as first and `pdk hugo` as second.
 
 [CAUTION]
 Keep in mind, that when you execute the `clean` goal of PDK, the target directory is removed,
@@ -151,5 +98,4 @@ meaning you lose all compiled classes from previous builds.
 That means, that PDK will have to rebuild all of your project again from scratch.
 So if you have performed some manual editing to the generated files
 under the target dir, you will lose them.
-
-
+//end caution
