@@ -1,0 +1,57 @@
+name: Deploy to test-docs
+
+on:
+  push:
+    branches:
+      - test
+  release:
+    types:
+      - released
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.ECR_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.ECR_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+      - name: Login with docker to ECR
+        id: login-ecr
+        run: aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 070318080841.dkr.ecr.eu-west-1.amazonaws.com
+
+
+      #- name: Pull docker image
+      #  run: docker pull 070318080841.dkr.ecr.eu-west-1.amazonaws.com/pdk:latest
+
+      - name: Prepare PDK
+        run: |
+          docker run --rm -i -v $(pwd):/src \
+            -e RESOURCES_REPO_ACCESS_TOKEN="${{ secrets.RESOURCES_REPO_ACCESS_TOKEN }}" \
+            -e RESOURCES_REPO_URL -e PDK_LOG_LEVEL="DEBUG" \
+            070318080841.dkr.ecr.eu-west-1.amazonaws.com/pdk:1.4.4-preview \
+            pdk -T
+
+      - name: Run PDK
+        run: |
+          docker run --rm -i -v $(pwd):/src \
+            -e RESOURCES_REPO_ACCESS_TOKEN="${{ secrets.RESOURCES_REPO_ACCESS_TOKEN }}" \
+            -e RESOURCES_REPO_URL -e PDK_LOG_LEVEL="DEBUG" \
+            070318080841.dkr.ecr.eu-west-1.amazonaws.com/pdk:1.4.4-preview \
+            pdk
+
+      #- name: Publish to Test-Docs
+      #  env:
+      #    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #  run: |
+      #      aws s3 sync --acl public-read --region eu-west-1 target/site ${{ secrets.AWS_S3_PATH }}
