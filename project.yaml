@@ -1,5 +1,5 @@
-id: pint_my
-version: 1.3.0
+id: pdk_template
+version: 1.0.0
 languages:
   - code: en
     title: PDK Template Project
