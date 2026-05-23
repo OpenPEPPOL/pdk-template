@@ -3,7 +3,7 @@ name: Deploy to test-docs
 on:
   push:
     branches:
-      - test
+      - main
   release:
     types:
       - released
